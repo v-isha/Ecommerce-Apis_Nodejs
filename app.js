@@ -4,6 +4,9 @@ import connectDB from './Config/connectdb.js'
 import authroutes from './Routes/auth.js'
 import userroutes from './Routes/user.js'
 import productroutes from './Routes/product.js'
+import cartroutes from './Routes/cart.js'
+
+
 dotenv.config()
 const app = express()
 const port = process.env.PORT
@@ -15,6 +18,7 @@ app.use(express.json())
 app.use('/api/registration',authroutes)
 app.use('/api/users',userroutes)
 app.use('/api/products',productroutes)
+app.use('/api/carts',cartroutes)
 
 
 

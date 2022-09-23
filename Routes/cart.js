@@ -1,88 +1,89 @@
-// import Cart from '../Models/Cart.js'
-// import express from 'express'
-// import  {verifyTokenandAuthorization,verifyTokenAdmin}  from '../Middlewares/VerifyToken.js'
+import Cart from '../Models/Cart.js'
+import express from 'express'
+import  {verifyTokenandAuthorization,verifyTokenAdmin,verifyToken}  from '../Middlewares/VerifyToken.js'
 
-// const router = express.Router()
+const router = express.Router()
 
-// // CREATE PRODUCTS
-// router.post("/",verifyTokenAdmin, async (req, res) => {
-//     const newProduct = new Product(req.body);
+// CREATE CART
+router.post("/", verifyToken, async (req, res) => {
+    const newCart = new Cart(req.body);
   
-//     try {
-//       const savedProduct = await newProduct.save();
-//       res.status(200).json(savedProduct);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
+    try {
+      const savecart = await newCart.save();
+      res.status(200).json(savecart);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
+ 
 
-
-// //   UPDATE PRODUCTS
-// router.put("/:id",verifyTokenAdmin, async (req,res)=>{
+//   UPDATE CART
+router.put("/:id",verifyTokenandAuthorization, async (req,res)=>{
     
-//     try {
+    try {
 
-//         const updateproduct = await Product.findByIdAndUpdate(
-//           req.params.id, 
-//             {
-//                 $set : req.body
-//             },
-//             {
-//                 new:true
-//             }
-//         );
-//         res.status(200).json(updateproduct);
+        const updatecart = await Cart.findByIdAndUpdate(
+          req.params.id, 
+            {
+                $set : req.body
+            },
+            {
+                new:true
+            }
+        );
+        res.status(200).json(updatecart);
         
-//     } catch (error) {
-//         res.status(500).json(error);  
-//     }
+    } catch (error) {
+        res.status(500).json(error);  
+    }
 
-// });
+});
 
 
-// // DELETE PRODUCTS
+// DELETE PRODUCTS
 
-// router.delete("/:id",verifyTokenAdmin, async (req,res)=>{
+router.delete("/:id",verifyTokenandAuthorization, async (req,res)=>{
     
-//     try {
+    try {
 
-//         await Product.findByIdAndDelete(req.params.id);
-//         res.status(200).json("Product has been deleted");
+        await Cart.findByIdAndDelete(req.params.id);
+        res.status(200).json("Cart has been deleted");
         
-//     } catch (error) {
-//         res.status(500).json(error);  
-//     }
+    } catch (error) {
+        res.status(500).json(error);  
+    }
 
-// });
+});
 
 
-// // GET PRODUCT BY ID
+// GET USER CART
 
-// router.get("/find/:id",verifyTokenAdmin, async (req,res)=>{
-//     try {
+router.get("/find/:userid",verifyTokenandAuthorization, async (req,res)=>{
+    try {
 
-//         const product = await Product.findById(req.params.id);
-//         res.status(200).json(product);
+        const cart = await Cart.findOne({userId:req.params.userid});
+        res.status(200).json(cart);
         
-//     } catch (error) {
-//         res.status(500).json(error);  
-//     }
+    } catch (error) {
+        res.status(500).json(error);  
+    }
 
-// });
+});
 
-// // GET ALL PRODUCT AT A TIME @1.28.00
-// router.get("/product",verifyTokenAdmin, async (req,res)=>{
-//     try {
 
-//         const user = await Product.find();
-//         res.status(200).json(user);
-        
-//     } catch (error) {
-//         res.status(500).json(error);  
-//     }
+// GET ALL USER CART
 
-// });
+router.get("/usercart",verifyTokenAdmin,async (req,res)=>{
+
+        try {
+                    const cart = await Cart.find();
+                    res.status(200).json(cart);
+
+            } catch (error) {
+                 res.status(500).json(error);
+            }
+});
 
 
 
@@ -96,4 +97,4 @@
 
 
 
-// export default router;
+export default router;

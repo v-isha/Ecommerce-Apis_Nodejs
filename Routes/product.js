@@ -59,7 +59,7 @@ router.delete("/:id",verifyTokenAdmin, async (req,res)=>{
 
 // GET PRODUCT BY ID
 
-router.get("/find/:id",verifyTokenAdmin, async (req,res)=>{
+router.get("/find/:id",async (req,res)=>{
     try {
 
         const product = await Product.findById(req.params.id);
@@ -71,8 +71,8 @@ router.get("/find/:id",verifyTokenAdmin, async (req,res)=>{
 
 });
 
-// GET ALL PRODUCT AT A TIME @1.28.00
-router.get("/product",verifyTokenAdmin, async (req,res)=>{
+// GET ALL PRODUCT AT A TIME 
+router.get("/product",async (req,res)=>{
     try {
 
         const user = await Product.find();
